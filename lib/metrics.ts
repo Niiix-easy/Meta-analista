@@ -1,0 +1,3 @@
+export type MetricsInput={spend:number;revenue?:number;totalCosts?:number;clicks:number;impressions:number;reach:number;purchases:number;newCustomers?:number};
+const ratio=(a:number,b:number)=>b>0?a/b:null;
+export function calculate(m:MetricsInput){const revenue=m.revenue??0;return {roas:ratio(revenue,m.spend),roi:ratio(revenue-m.spend-(m.totalCosts??0),m.spend+(m.totalCosts??0)),cac:m.newCustomers===undefined?null:ratio(m.spend,m.newCustomers),cpa:ratio(m.spend,m.purchases),ctr:ratio(100*m.clicks,m.impressions),cpc:ratio(m.spend,m.clicks),cpm:ratio(1000*m.spend,m.impressions),frequency:ratio(m.impressions,m.reach),profit:revenue-m.spend-(m.totalCosts??0)}}
