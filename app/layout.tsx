@@ -1,3 +1,43 @@
-import type {ReactNode} from 'react';
-export const metadata={title:'Meta Ads Analytics AI',description:'Inteligência de campanhas e resultados financeiros'};
-export default function Layout({children}:{children:ReactNode}){return <html lang="pt-BR"><body style={{margin:0,background:'#0b1220',color:'#e9eef9',fontFamily:'system-ui,Arial'}}>{children}</body></html>}
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import "./globals.css";
+import { ThemeProvider } from "next-themes";
+import { Toaster } from "@/src/components/ui/sonner";
+
+import { AuthProvider } from "@/src/components/AuthProvider";
+
+const inter = Inter({ subsets: ["latin"] });
+
+export const metadata: Metadata = {
+  title: "Meta Ads AI Command Center",
+  description: "Proactive AI-driven command center for Meta Ads optimization.",
+  openGraph: {
+    title: "Meta Ads AI Command Center",
+    description: "Proactive AI-driven command center for Meta Ads optimization.",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Meta Ads AI Command Center",
+    description: "Proactive AI-driven command center for Meta Ads optimization.",
+  },
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="pt-BR" suppressHydrationWarning>
+      <body className={inter.className}>
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+          <AuthProvider>
+            {children}
+            <Toaster />
+          </AuthProvider>
+        </ThemeProvider>
+      </body>
+    </html>
+  );
+}

@@ -1,8 +1,13 @@
-generator client { provider = "prisma-client-js" }
-datasource db { provider = "postgresql" url = env("DATABASE_URL") }
-model User { id String @id @default(cuid()) email String @unique passwordHash String name String? memberships Membership[] createdAt DateTime @default(now()) }
-model Organization { id String @id @default(cuid()) name String memberships Membership[] adAccounts AdAccount[] createdAt DateTime @default(now()) }
-model Membership { id String @id @default(cuid()) userId String organizationId String role String @default("VIEWER") user User @relation(fields:[userId],references:[id]) organization Organization @relation(fields:[organizationId],references:[id]) @@unique([userId,organizationId]) }
-model AdAccount { id String @id @default(cuid()) organizationId String metaAccountId String name String currency String @default("BRL") organization Organization @relation(fields:[organizationId],references:[id]) campaigns Campaign[] @@unique([organizationId,metaAccountId]) }
-model Campaign { id String @id @default(cuid()) accountId String metaCampaignId String name String objective String? account AdAccount @relation(fields:[accountId],references:[id]) metrics DailyMetric[] @@unique([accountId,metaCampaignId]) }
-model DailyMetric { id String @id @default(cuid()) campaignId String date DateTime spend Decimal @db.Decimal(18,2) revenue Decimal? @db.Decimal(18,2) impressions Int @default(0) reach Int @default(0) clicks Int @default(0) purchases Int @default(0) leads Int @default(0) newCustomers Int? campaign Campaign @relation(fields:[campaignId],references:[id]) @@unique([campaignId,date]) }
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id    String @id @default(cuid())
+  email String @unique
+}
